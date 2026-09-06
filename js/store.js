@@ -153,3 +153,22 @@ function formatDate(iso) {
   if (Number.isNaN(d.getTime())) return '—';
   return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 }
+
+function chevronSvg() {
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>';
+}
+
+function cardMarkup(app) {
+  const cat = getCategory(app.category);
+  return `
+    <a class="app-card" href="app.html?id=${encodeURIComponent(app.id)}" data-cat="${app.category}" data-name="${escapeHtml((app.name || '').toLowerCase())}">
+      <div class="app-card-icon">${iconMarkup(app)}</div>
+      <div class="app-card-body">
+        <h3>${escapeHtml(app.name)}</h3>
+        <p>${escapeHtml(app.tagline)}</p>
+        <span class="tag">${escapeHtml(cat.label)}</span>
+      </div>
+      <span class="chevron" aria-hidden="true">${chevronSvg()}</span>
+    </a>`;
+}
+
