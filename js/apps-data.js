@@ -74,6 +74,7 @@ const SEED_APPS = [
     featured: false,
     addedAt: '2026-08-22',
   },
+  
   {
     id: 'chatgpt',
     name: 'ChatGPT',
