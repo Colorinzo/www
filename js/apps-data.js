@@ -16,11 +16,11 @@
  */
 
 const CATEGORIES = [
-  { id: 'games', label: 'Игры', color: '#FF5A36' },
-  { id: 'productivity', label: 'Продуктивность', color: '#4C8DFF' },
-  { id: 'health', label: 'Здоровье и фитнес', color: '#33C481' },
-  { id: 'entertainment', label: 'Развлечения', color: '#C77DFF' },
-  { id: 'utilities', label: 'Инструменты', color: '#E0B33C' },
+  { id: 'games', label: 'Игры' },
+  { id: 'productivity', label: 'Продуктивность' },
+  { id: 'health', label: 'Здоровье и фитнес' },
+  { id: 'entertainment', label: 'Развлечения' },
+  { id: 'utilities', label: 'Инструменты' },
 ];
 
 const SEED_APPS = [
@@ -74,7 +74,6 @@ const SEED_APPS = [
     featured: false,
     addedAt: '2026-08-22',
   },
-  
   {
     id: 'chatgpt',
     name: 'ChatGPT',
