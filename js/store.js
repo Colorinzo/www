@@ -172,3 +172,8 @@ function cardMarkup(app) {
     </a>`;
 }
 
+function getCategory(id) {
+  return CATEGORIES.find((c) => c.id === id) || { id: 'other', label: 'Другое' };
+}
+
+
