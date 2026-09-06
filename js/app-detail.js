@@ -18,7 +18,7 @@ function renderApp(app) {
     <div class="detail-top">
       <div class="detail-icon">${iconMarkup(app)}</div>
       <div class="detail-head">
-        <span class="tag" style="--tag-color:${cat.color}">${escapeHtml(cat.label)}</span>
+        <span class="tag">${escapeHtml(cat.label)}</span>
         <h1>${escapeHtml(app.name)}</h1>
         ${app.developer ? `<p class="developer">${escapeHtml(app.developer)}</p>` : ''}
         ${hasStoreLink
