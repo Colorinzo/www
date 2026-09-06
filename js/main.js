@@ -33,26 +33,6 @@ function renderFeatured(apps) {
     <a class="featured-card" href="app.html?id=${encodeURIComponent(featured.id)}">
       <div class="featured-icon">${iconMarkup(featured)}</div>
       <div class="featured-body">
-        <span class="tag" style="--tag-color:${cat.color}">${escapeHtml(cat.label)}</span>
-        <h2>${escapeHtml(featured.name)}</h2>
-        <p>${escapeHtml(featured.tagline)}</p>
-        <span class="cta">Смотреть карточку</span>
-      </div>
-    </a>`;
-}
-
-function renderFeatured(apps) {
-  const slot = document.getElementById('featuredSlot');
-  const featured = apps.find((a) => a.featured) || apps[0];
-  if (!featured) {
-    slot.innerHTML = '';
-    return;
-  }
-  const cat = getCategory(featured.category);
-  slot.innerHTML = `
-    <a class="featured-card" href="app.html?id=${encodeURIComponent(featured.id)}">
-      <div class="featured-icon">${iconMarkup(featured)}</div>
-      <div class="featured-body">
         <span class="tag">${escapeHtml(cat.label)}</span>
         <h2>${escapeHtml(featured.name)}</h2>
         <p>${escapeHtml(featured.tagline)}</p>
@@ -60,7 +40,6 @@ function renderFeatured(apps) {
       <span class="featured-chevron" aria-hidden="true">${chevronSvg()}</span>
     </a>`;
 }
-
 
 function renderGrid(apps) {
   document.getElementById('feedGrid').innerHTML = apps.map(cardMarkup).join('');
