@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Админ-панель — Витрина</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23FF5A36'/%3E%3Ctext x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='%2317100D' text-anchor='middle'%3EВ%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="index.html" class="logo">Витрина</a>
+        <span class="logo-tagline">Админ-панель</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <a class="back-link" href="index.html">← На сайт</a>
+
+    <section id="loginGate" class="login-gate">
+      <h1>Вход в админку</h1>
+      <form id="loginForm">
+        <input type="password" id="passwordInput" placeholder="Пароль" required autofocus>
+        <button type="submit">Войти</button>
+      </form>
+      <p class="error-text" id="loginError" hidden>Неверный пароль</p>
+      <p class="hint">Пароль по умолчанию задан в js/admin.js — поменяйте его на свой перед публикацией сайта.</p>
+    </section>
+
+    <section id="adminPanel" class="admin-panel" hidden>
+      <div class="admin-toolbar">
+        <h1>Приложения</h1>
+        <div class="toolbar-actions">
+          <button type="button" id="exportBtn">Экспортировать</button>
+          <label class="import-label">Импортировать
+            <input type="file" id="importInput" accept="application/json" hidden>
+          </label>
+          <button type="button" id="logoutBtn">Выйти</button>
+        </div>
+      </div>
+
+      <p class="admin-status" id="adminStatus" hidden></p>
+
+      <form id="appForm" class="app-form">
+        <input type="hidden" id="appId">
+
+        <div class="form-row">
+          <label>Название приложения
+            <input id="fieldName" required>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Разработчик
+            <input id="fieldDeveloper" placeholder="Необязательно">
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Категория
+            <select id="fieldCategory"></select>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Короткое описание (показывается в карточке)
+            <input id="fieldTagline" maxlength="100" required>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Полное описание (на странице приложения)
+            <textarea id="fieldDescription" rows="4"></textarea>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Ссылка на страницу в App Store
+            <input id="fieldUrl" type="url" placeholder="https://apps.apple.com/..." required>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Ссылка на иконку (необязательно — иначе покажется заглушка с буквой)
+            <input id="fieldIcon" type="url" placeholder="https://...">
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Скриншоты — по одной ссылке на строку (необязательно)
+            <textarea id="fieldScreens" rows="3" placeholder="https://...
+https://..."></textarea>
+          </label>
+        </div>
+
+        <div class="form-row checkbox-row">
+          <label>
+            <input type="checkbox" id="fieldFeatured">
+            Показывать как главную карточку на сайте
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="submitBtn">Добавить приложение</button>
+          <button type="button" id="cancelEditBtn" hidden>Отменить редактирование</button>
+        </div>
+      </form>
+
+      <div class="admin-list" id="adminList"></div>
+    </section>
+  </main>
+
+  <script src="js/apps-data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
