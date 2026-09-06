@@ -108,7 +108,7 @@ function importAppsFromJson(jsonText) {
 // ---- категории -----------------------------------------------------------
 
 function getCategory(id) {
-  return CATEGORIES.find((c) => c.id === id) || { id: 'other', label: 'Другое', color: '#97969C' };
+  return CATEGORIES.find((c) => c.id === id) || { id: 'other', label: 'Другое' };
 }
 
 // ---- общая разметка, используемая на нескольких страницах ---------------
@@ -134,26 +134,6 @@ function iconMarkup(app) {
   return `<span class="icon-fallback" style="--hue:${hue}">${escapeHtml(letter)}</span>`;
 }
 
-function cardMarkup(app) {
-  const cat = getCategory(app.category);
-  return `
-    <a class="app-card" href="app.html?id=${encodeURIComponent(app.id)}" data-cat="${app.category}" data-name="${escapeHtml((app.name || '').toLowerCase())}">
-      <div class="app-card-icon">${iconMarkup(app)}</div>
-      <div class="app-card-body">
-        <h3>${escapeHtml(app.name)}</h3>
-        <p>${escapeHtml(app.tagline)}</p>
-        <span class="tag" style="--tag-color:${cat.color}">${escapeHtml(cat.label)}</span>
-      </div>
-    </a>`;
-}
-
-function formatDate(iso) {
-  if (!iso) return '—';
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return '—';
-  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-}
-
 function chevronSvg() {
   return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>';
 }
@@ -172,8 +152,9 @@ function cardMarkup(app) {
     </a>`;
 }
 
-function getCategory(id) {
-  return CATEGORIES.find((c) => c.id === id) || { id: 'other', label: 'Другое' };
+function formatDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '—';
+  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 }
-
-
