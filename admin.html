@@ -24,6 +24,7 @@
 
   <main class="admin-main">
     <a class="back-link" href="index.html">← На сайт</a>
+    <p class="error-text" id="storageWarning" hidden>Браузер блокирует локальное хранилище (localStorage) на этой странице — вероятно, приватная вкладка или файл открыт двойным кликом (file://). Админка не сможет сохранять добавления. Откройте сайт через обычный локальный сервер или на хостинге, в обычном (не приватном) окне браузера.</p>
 
     <section id="loginGate" class="login-gate">
       <h1>Вход в админку</h1>
@@ -84,13 +85,13 @@
 
         <div class="form-row">
           <label>Ссылка на страницу в App Store
-            <input id="fieldUrl" type="url" placeholder="https://apps.apple.com/..." required>
+            <input id="fieldUrl" type="text" placeholder="https://apps.apple.com/..." required>
           </label>
         </div>
 
         <div class="form-row">
           <label>Ссылка на иконку (необязательно — иначе покажется заглушка с буквой)
-            <input id="fieldIcon" type="url" placeholder="https://...">
+            <input id="fieldIcon" type="text" placeholder="https://...">
           </label>
         </div>
 
