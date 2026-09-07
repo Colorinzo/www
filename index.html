@@ -1,42 +1,90 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Витрина — подборка приложений из App Store</title>
-  <meta name="description" content="Личная подборка полезных и интересных приложений из App Store.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230A0A0C'/%3E%3Ctext x='16' y='22' font-size='16' font-family='sans-serif' font-weight='800' fill='%23FFFFFF' text-anchor='middle'%3EВ%3C/text%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0b0b0d">
+  <meta name="description" content="Vitrina — каталог приложений для iPhone и iPad.">
+  <meta property="og:title" content="Vitrina — каталог приложений">
+  <meta property="og:description" content="Подборка приложений для iPhone и iPad.">
+  <meta property="og:type" content="website">
+  <title>Vitrina — приложения</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
   <header class="site-header">
-    <div class="header-inner">
-      <div class="logo-block">
-        <a href="index.html" class="logo"><span class="logo-mark">В</span>Витрина</a>
-        <span class="logo-tagline">Личная подборка приложений из App Store</span>
-      </div>
-      <nav class="main-nav" id="categoryNav" aria-label="Категории"></nav>
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Vitrina — главная">
+        VITRINA
+      </a>
+
       <div class="header-actions">
-        <input type="search" id="searchInput" placeholder="Найти приложение…" aria-label="Поиск">
-        <a class="admin-link" href="admin.html" title="Админ-панель" aria-label="Админ-панель">⚙</a>
+        <label class="search-box">
+          <span class="sr-only">Поиск</span>
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Поиск..."
+            autocomplete="off"
+          >
+        </label>
+
+        <a class="admin-link" href="admin.html">Админ</a>
       </div>
     </div>
   </header>
 
-  <main>
-    <section id="featuredSlot"></section>
-    <section>
-      <div class="feed-grid" id="feedGrid"></div>
-      <p class="empty-state" id="emptyState" hidden>Ничего не нашлось. Попробуйте другую категорию или запрос.</p>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">CURATED APPS</p>
+
+        <h1>
+          Приложения,<br>
+          которые стоят места на экране.
+        </h1>
+
+        <p class="hero-copy">
+          Небольшая личная витрина полезных, красивых
+          и интересных приложений.
+        </p>
+      </div>
     </section>
+
+    <section class="toolbar" aria-label="Фильтры каталога">
+      <div
+        id="categoryFilters"
+        class="filter-list"
+        role="tablist"
+        aria-label="Категории"
+      ></div>
+
+      <label class="featured-toggle">
+        <input id="featuredOnly" type="checkbox">
+        <span>Только избранное</span>
+      </label>
+    </section>
+
+    <section
+      id="feed"
+      class="feed-grid"
+      aria-live="polite"
+    ></section>
+
+    <p id="emptyState" class="empty-state" hidden>
+      Ничего не нашлось. Попробуй другой запрос.
+    </p>
   </main>
 
   <footer class="site-footer">
-    <p>Витрина — личная подборка приложений из App Store. Проект не связан с Apple Inc.</p>
+    <div class="container footer-inner">
+      <span>VITRINA</span>
+      <span>Static / local-first</span>
+    </div>
   </footer>
 
-  <script src="js/apps-data.js">
+  <script src="js/apps-data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
