@@ -1,57 +1,128 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0b0d">
-  <meta name="description" content="Vitrina — каталог приложений для iPhone и iPad.">
-  <meta property="og:title" content="Vitrina — каталог приложений">
-  <meta property="og:description" content="Подборка приложений для iPhone и iPad.">
-  <meta property="og:type" content="website">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b0b0d"
+  >
+
+  <meta
+    name="description"
+    content="Vitrina — каталог приложений для iPhone и iPad."
+  >
+
+  <meta
+    property="og:title"
+    content="Vitrina — каталог приложений"
+  >
+
+  <meta
+    property="og:description"
+    content="Подборка приложений для iPhone и iPad."
+  >
+
+  <meta
+    property="og:type"
+    content="website"
+  >
+
   <title>Vitrina — приложения</title>
-  <link rel="stylesheet" href="css/style.css">
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
 </head>
+
+
 <body>
+
   <header class="site-header">
+
     <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="Vitrina — главная">
+
+      <a
+        class="brand"
+        href="index.html"
+        aria-label="Vitrina — главная"
+      >
         VITRINA
       </a>
 
+
       <div class="header-actions">
+
         <label class="search-box">
-          <span class="sr-only">Поиск</span>
+
+          <span class="sr-only">
+            Поиск
+          </span>
+
           <input
             id="searchInput"
             type="search"
             placeholder="Поиск..."
             autocomplete="off"
           >
+
         </label>
 
-        <a class="admin-link" href="admin.html">Админ</a>
+
+        <a
+          class="admin-link"
+          href="admin.html"
+        >
+          Админ
+        </a>
+
       </div>
+
     </div>
+
   </header>
 
+
   <main class="container">
+
+
     <section class="hero">
+
       <div>
-        <p class="eyebrow">CURATED APPS</p>
+
+        <p class="eyebrow">
+          CURATED APPS
+        </p>
+
 
         <h1>
           Приложения,<br>
           которые стоят места на экране.
         </h1>
 
+
         <p class="hero-copy">
-          Небольшая личная витрина полезных, красивых
-          и интересных приложений.
+          Небольшая личная витрина полезных,
+          красивых и интересных приложений.
         </p>
+
       </div>
+
     </section>
 
-    <section class="toolbar" aria-label="Фильтры каталога">
+
+    <section
+      class="toolbar"
+      aria-label="Фильтры каталога"
+    >
+
       <div
         id="categoryFilters"
         class="filter-list"
@@ -59,11 +130,22 @@
         aria-label="Категории"
       ></div>
 
+
       <label class="featured-toggle">
-        <input id="featuredOnly" type="checkbox">
-        <span>Только избранное</span>
+
+        <input
+          id="featuredOnly"
+          type="checkbox"
+        >
+
+        <span>
+          Только избранное
+        </span>
+
       </label>
+
     </section>
+
 
     <section
       id="feed"
@@ -71,20 +153,41 @@
       aria-live="polite"
     ></section>
 
-    <p id="emptyState" class="empty-state" hidden>
-      Ничего не нашлось. Попробуй другой запрос.
+
+    <p
+      id="emptyState"
+      class="empty-state"
+      hidden
+    >
+      Ничего не нашлось.
+      Попробуй другой запрос.
     </p>
+
   </main>
 
+
   <footer class="site-footer">
+
     <div class="container footer-inner">
-      <span>VITRINA</span>
-      <span>Static / local-first</span>
+
+      <span>
+        VITRINA
+      </span>
+
+
+      <span>
+        Static / local-first
+      </span>
+
     </div>
+
   </footer>
+
 
   <script src="js/apps-data.js"></script>
   <script src="js/store.js"></script>
   <script src="js/home.js"></script>
+
 </body>
+
 </html>
