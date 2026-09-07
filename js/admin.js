@@ -9,6 +9,10 @@ const ADMIN_PASSWORD = 'vitrina2026';
 const SESSION_KEY = 'vitrina_admin_session';
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (!storageAvailable()) {
+    document.getElementById('storageWarning').hidden = false;
+  }
+
   populateCategorySelect();
 
   if (sessionStorage.getItem(SESSION_KEY) === 'ok') showPanel();
@@ -64,7 +68,7 @@ function handleSubmit(e) {
     category: document.getElementById('fieldCategory').value,
     tagline: document.getElementById('fieldTagline').value.trim(),
     description: document.getElementById('fieldDescription').value.trim(),
-    storeUrl: document.getElementById('fieldUrl').value.trim(),
+    storeUrl: normalizeUrl(document.getElementById('fieldUrl').value.trim()),
     icon: document.getElementById('fieldIcon').value.trim(),
     screenshots: document
       .getElementById('fieldScreens')
@@ -75,10 +79,36 @@ function handleSubmit(e) {
     addedAt: existing ? existing.addedAt : todayIso(),
   };
 
-  upsertApp(app);
+  try {
+    upsertApp(app);
+  } catch (err) {
+    alert(
+      'Не удалось сохранить приложение: ' + err.message +
+      '\n\nСкорее всего браузер блокирует localStorage на этой странице ' +
+      '(приватная вкладка, открыт файл двойным кликом, отключено в настройках).'
+    );
+    return;
+  }
+
   resetForm();
   renderAdminList();
   showStatus(existingId ? 'Изменения сохранены.' : 'Приложение добавлено.');
+}
+
+function normalizeUrl(url) {
+  if (!url || url === '#') return url;
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
+
+function storageAvailable() {
+  try {
+    const testKey = '__vitrina_storage_test__';
+    localStorage.setItem(testKey, '1');
+    localStorage.removeItem(testKey);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 function resetForm() {
