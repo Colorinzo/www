@@ -3,102 +3,59 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#0b0b0d">
-  <title>Admin — Vitrina</title>
+  <title>Админ — Vitrina</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="index.html">VITRINA</a>
-      <a class="back-link" href="index.html">← Каталог</a>
+      <a class="admin-link" href="index.html">← Каталог</a>
     </div>
   </header>
-
   <main class="container admin-page">
-    <section id="loginPanel" class="panel narrow">
-      <p class="eyebrow">LOCAL ADMIN</p>
-      <h1>Панель управления</h1>
-      <p class="muted">PIN — только локальный барьер от случайного доступа. Это не серверная авторизация: секреты нельзя надёжно скрыть в статическом сайте.</p>
-      <form id="loginForm" class="stack">
-        <label>PIN<input id="pinInput" type="password" inputmode="numeric" autocomplete="current-password" maxlength="32" required></label>
-        <button class="button primary" type="submit">Войти</button>
-        <p id="loginError" class="form-error" hidden>Неверный PIN.</p>
-      </form>
-    </section>
-
-    <section id="adminPanel" hidden>
-      <div class="admin-heading">
-        <div>
-          <p class="eyebrow">CONTROL ROOM</p>
-          <h1 id="formTitle">Новое приложение</h1>
-        </div>
-        <button id="logoutButton" class="button" type="button">Выйти</button>
+    <section class="admin-card">
+      <p class="eyebrow">ADMIN</p>
+      <h1>Управление каталогом</h1>
+      <p class="muted">Изменения сохраняются локально в браузере.</p>
+      <div id="loginPanel">
+        <label class="field">
+          <span>Пароль</span>
+          <input id="passwordInput" type="password" autocomplete="current-password">
+        </label>
+        <button id="loginButton" class="button" type="button">Войти</button>
+        <p id="loginError" class="form-error" hidden>Неверный пароль.</p>
       </div>
-
-      <div class="admin-grid">
-        <form id="appForm" class="panel stack">
-          <input id="appId" type="hidden">
-
-          <div class="form-grid">
-            <label>Название<input id="name" maxlength="80" required></label>
-            <label>Категория
-              <select id="category" required></select>
-            </label>
-          </div>
-
-          <div class="form-grid">
-            <label>Теглайн<input id="tagline" maxlength="140" required></label>
-            <label>Дата релиза<input id="releaseDate" type="date" required></label>
-          </div>
-
-          <label>Описание<textarea id="description" rows="6" maxlength="3000" required></textarea></label>
-
-          <div class="form-grid">
-            <label>Иконка URL<input id="iconUrl" type="url" maxlength="1000" placeholder="https://..." required></label>
-            <label>App Store URL<input id="storeUrl" type="url" maxlength="1000" placeholder="https://..."></label>
-          </div>
-
-          <label>Скриншоты URL <span class="muted">(по одному на строку, максимум 8)</span>
-            <textarea id="screenshots" rows="5" maxlength="8000" placeholder="https://..."></textarea>
+      <div id="adminPanel" hidden>
+        <div class="admin-actions">
+          <button id="exportButton" class="button" type="button">Экспорт JSON</button>
+          <label class="button button-secondary">
+            Импорт JSON
+            <input id="importInput" type="file" accept="application/json,.json" hidden>
           </label>
-
-          <div class="checkbox-row">
-            <label class="checkbox-label"><input id="featured" type="checkbox"> Избранное</label>
-          </div>
-
-          <div class="button-row">
-            <button class="button primary" type="submit">Сохранить</button>
-            <button id="resetButton" class="button" type="button">Очистить</button>
-          </div>
-          <p id="formStatus" class="form-status" aria-live="polite"></p>
-        </form>
-
-        <aside class="panel stack">
-          <div class="section-heading">
-            <h2>Данные</h2>
-            <span id="countLabel" class="badge">0</span>
-          </div>
-          <p class="muted">Экспортируй JSON как резервную копию. Импорт заменяет текущий локальный каталог.</p>
-          <div class="button-row">
-            <button id="exportButton" class="button" type="button">Экспорт JSON</button>
-            <label class="button file-button">Импорт JSON<input id="importInput" type="file" accept="application/json,.json" hidden></label>
-          </div>
-          <p id="dataStatus" class="form-status" aria-live="polite"></p>
-        </aside>
-      </div>
-
-      <section class="admin-list-section">
-        <div class="section-heading">
-          <h2>Приложения</h2>
-          <span class="muted">Редактирование локального каталога</span>
+          <button id="resetButton" class="button button-danger" type="button">Сбросить</button>
+          <button id="logoutButton" class="button button-secondary" type="button">Выйти</button>
         </div>
+        <form id="appForm" class="app-form">
+          <input id="editingId" type="hidden">
+          <label class="field"><span>Название</span><input id="nameInput" required maxlength="100"></label>
+          <label class="field"><span>Описание</span><textarea id="descriptionInput" required maxlength="500"></textarea></label>
+          <label class="field"><span>Категория</span><input id="categoryInput" required maxlength="50"></label>
+          <label class="field"><span>Иконка URL</span><input id="iconInput" type="url" required></label>
+          <label class="field"><span>Store URL</span><input id="storeInput" type="url" required></label>
+          <label class="field"><span>Скриншоты — URL через запятую</span><textarea id="screenshotsInput"></textarea></label>
+          <label class="checkbox-field"><input id="featuredInput" type="checkbox"><span>Избранное</span></label>
+          <div class="admin-actions">
+            <button class="button" type="submit">Сохранить</button>
+            <button id="cancelEditButton" class="button button-secondary" type="button">Очистить</button>
+          </div>
+        </form>
         <div id="adminList" class="admin-list"></div>
-      </section>
+      </div>
     </section>
   </main>
-
   <script src="js/apps-data.js"></script>
   <script src="js/store.js"></script>
   <script src="js/admin.js"></script>
