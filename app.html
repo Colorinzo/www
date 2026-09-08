@@ -4,8 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0b0d">
-  <meta name="description" content="Карточка приложения в каталоге Vitrina.">
-  <meta property="og:type" content="website">
+  <meta name="description" content="Приложение — Vitrina.">
   <title>Приложение — Vitrina</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -13,12 +12,13 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="index.html">VITRINA</a>
-      <a class="back-link" href="index.html">← Назад</a>
+      <a class="admin-link" href="index.html">← Каталог</a>
     </div>
   </header>
-
-  <main id="appDetail" class="container detail-page"></main>
-
+  <main class="container">
+    <section id="appDetail" class="app-detail" aria-live="polite"></section>
+    <p id="detailEmpty" class="empty-state" hidden>Приложение не найдено.</p>
+  </main>
   <script src="js/apps-data.js"></script>
   <script src="js/store.js"></script>
   <script src="js/app-detail.js"></script>
