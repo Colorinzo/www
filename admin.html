@@ -1,63 +1,392 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow">
-  <meta name="theme-color" content="#0b0b0d">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta
+    name="robots"
+    content="noindex,nofollow"
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b0b0d"
+  >
+
   <title>Админ — Vitrina</title>
-  <link rel="stylesheet" href="css/style.css">
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
 </head>
+
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index.html">VITRINA</a>
-      <a class="admin-link" href="index.html">← Каталог</a>
-    </div>
-  </header>
-  <main class="container admin-page">
-    <section class="admin-card">
-      <p class="eyebrow">ADMIN</p>
-      <h1>Управление каталогом</h1>
-      <p class="muted">Изменения сохраняются локально в браузере.</p>
-      <div id="loginPanel">
-        <label class="field">
-          <span>Пароль</span>
-          <input id="passwordInput" type="password" autocomplete="current-password">
-        </label>
-        <button id="loginButton" class="button" type="button">Войти</button>
-        <p id="loginError" class="form-error" hidden>Неверный пароль.</p>
+
+  <div class="app-shell">
+
+    <header class="topbar">
+
+      <div class="topbar-side">
+
+        <a
+          class="back-button"
+          href="index.html"
+          aria-label="Назад"
+        >
+          ‹
+        </a>
+
       </div>
-      <div id="adminPanel" hidden>
-        <div class="admin-actions">
-          <button id="exportButton" class="button" type="button">Экспорт JSON</button>
-          <label class="button button-secondary">
-            Импорт JSON
-            <input id="importInput" type="file" accept="application/json,.json" hidden>
-          </label>
-          <button id="resetButton" class="button button-danger" type="button">Сбросить</button>
-          <button id="logoutButton" class="button button-secondary" type="button">Выйти</button>
+
+      <span class="wordmark">
+        vitrina
+      </span>
+
+      <div class="topbar-side">
+
+        <a
+          class="icon-button"
+          href="index.html"
+          aria-label="Главная"
+        >
+          ⌂
+        </a>
+
+      </div>
+
+    </header>
+
+    <main class="admin-main">
+
+      <section class="admin-hero">
+
+        <span class="section-kicker">
+          CONTROL ROOM
+        </span>
+
+        <h1>
+          Управление<br>
+          витриной.
+        </h1>
+
+        <p>
+          Добавляй приложения, меняй порядок
+          и экспортируй каталог.
+          Все изменения этого статического сайта
+          сохраняются локально.
+        </p>
+
+      </section>
+
+      <!-- LOGIN -->
+
+      <section
+        id="loginPanel"
+        class="glass-card auth-card"
+      >
+
+        <div class="card-icon">
+          •
         </div>
-        <form id="appForm" class="app-form">
-          <input id="editingId" type="hidden">
-          <label class="field"><span>Название</span><input id="nameInput" required maxlength="100"></label>
-          <label class="field"><span>Описание</span><textarea id="descriptionInput" required maxlength="500"></textarea></label>
-          <label class="field"><span>Категория</span><input id="categoryInput" required maxlength="50"></label>
-          <label class="field"><span>Иконка URL</span><input id="iconInput" type="url" required></label>
-          <label class="field"><span>Store URL</span><input id="storeInput" type="url" required></label>
-          <label class="field"><span>Скриншоты — URL через запятую</span><textarea id="screenshotsInput"></textarea></label>
-          <label class="checkbox-field"><input id="featuredInput" type="checkbox"><span>Избранное</span></label>
-          <div class="admin-actions">
-            <button class="button" type="submit">Сохранить</button>
-            <button id="cancelEditButton" class="button button-secondary" type="button">Очистить</button>
+
+        <h2>
+          Локальный вход
+        </h2>
+
+        <p>
+          Это не серверная авторизация.
+          Она только закрывает редактор
+          от случайного доступа на устройстве.
+        </p>
+
+        <label class="field">
+
+          <span>
+            Пароль
+          </span>
+
+          <input
+            id="passwordInput"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Введи пароль"
+          >
+
+        </label>
+
+        <button
+          id="loginButton"
+          class="wide-button"
+          type="button"
+        >
+          Войти
+        </button>
+
+        <p
+          id="loginError"
+          class="form-error"
+          hidden
+        >
+          Неверный пароль.
+        </p>
+
+      </section>
+
+      <!-- ADMIN -->
+
+      <section
+        id="adminPanel"
+        class="admin-panel"
+        hidden
+      >
+
+        <div class="admin-toolbar">
+
+          <button
+            id="exportButton"
+            class="small-button"
+            type="button"
+          >
+            Экспорт
+          </button>
+
+          <label class="small-button">
+
+            Импорт
+
+            <input
+              id="importInput"
+              type="file"
+              accept="application/json,.json"
+              hidden
+            >
+
+          </label>
+
+          <button
+            id="resetButton"
+            class="small-button danger"
+            type="button"
+          >
+            Сброс
+          </button>
+
+          <button
+            id="logoutButton"
+            class="small-button"
+            type="button"
+          >
+            Выйти
+          </button>
+
+        </div>
+
+        <!-- EDITOR -->
+
+        <section class="glass-card">
+
+          <div class="section-head">
+
+            <div>
+
+              <span class="section-kicker">
+                EDITOR
+              </span>
+
+              <h2 id="formTitle">
+                Новое приложение
+              </h2>
+
+            </div>
+
           </div>
-        </form>
-        <div id="adminList" class="admin-list"></div>
-      </div>
-    </section>
-  </main>
+
+          <form id="appForm">
+
+            <input
+              id="editingId"
+              type="hidden"
+            >
+
+            <div class="form-grid">
+
+              <label class="field">
+
+                <span>
+                  Название
+                </span>
+
+                <input
+                  id="nameInput"
+                  required
+                  maxlength="100"
+                >
+
+              </label>
+
+              <label class="field">
+
+                <span>
+                  Категория
+                </span>
+
+                <input
+                  id="categoryInput"
+                  required
+                  maxlength="50"
+                >
+
+              </label>
+
+            </div>
+
+            <label class="field">
+
+              <span>
+                Описание
+              </span>
+
+              <textarea
+                id="descriptionInput"
+                required
+                maxlength="500"
+              ></textarea>
+
+            </label>
+
+            <div class="form-grid">
+
+              <label class="field">
+
+                <span>
+                  Иконка URL
+                </span>
+
+                <input
+                  id="iconInput"
+                  type="url"
+                  required
+                  placeholder="https://..."
+                >
+
+              </label>
+
+              <label class="field">
+
+                <span>
+                  App Store URL
+                </span>
+
+                <input
+                  id="storeInput"
+                  type="url"
+                  required
+                  placeholder="https://apps.apple.com/..."
+                >
+
+              </label>
+
+            </div>
+
+            <label class="field">
+
+              <span>
+                Скриншоты — URL через запятую
+              </span>
+
+              <textarea
+                id="screenshotsInput"
+                placeholder="https://... , https://..."
+              ></textarea>
+
+            </label>
+
+            <label class="check-row">
+
+              <input
+                id="featuredInput"
+                type="checkbox"
+              >
+
+              <span>
+                Показывать как избранное
+              </span>
+
+            </label>
+
+            <div class="form-actions">
+
+              <button
+                class="wide-button"
+                type="submit"
+              >
+                Сохранить приложение
+              </button>
+
+              <button
+                id="cancelEditButton"
+                class="ghost-button"
+                type="button"
+              >
+                Очистить
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
+
+        <!-- CATALOG -->
+
+        <section class="glass-card">
+
+          <div class="section-head">
+
+            <div>
+
+              <span class="section-kicker">
+                CATALOG
+              </span>
+
+              <h2>
+                Приложения
+              </h2>
+
+            </div>
+
+            <span
+              id="adminCount"
+              class="muted"
+            >
+              0
+            </span>
+
+          </div>
+
+          <div
+            id="adminList"
+            class="admin-list"
+          ></div>
+
+        </section>
+
+      </section>
+
+    </main>
+
+  </div>
+
   <script src="js/apps-data.js"></script>
   <script src="js/store.js"></script>
   <script src="js/admin.js"></script>
+
 </body>
 </html>
