@@ -1,104 +1,332 @@
 (() => {
-  "use strict";
-
   const store = window.VitrinaStore;
-  const state = { category: "all", query: "", featuredOnly: false };
 
-  const feed = document.getElementById("feed");
-  const emptyState = document.getElementById("emptyState");
-  const searchInput = document.getElementById("searchInput");
-  const filters = document.getElementById("categoryFilters");
-  const featuredOnly = document.getElementById("featuredOnly");
+  const feed =
+    document.getElementById("feed");
 
-  function cardMarkup(app) {
-    const detailUrl = `app.html?id=${encodeURIComponent(app.id)}`;
-    const category = store.escapeHtml(store.categoryLabel(app.category));
-    const safeName = store.escapeHtml(app.name);
-    const safeTagline = store.escapeHtml(app.tagline);
-    const date = store.escapeHtml(app.releaseDate);
+  const empty =
+    document.getElementById("emptyState");
 
-    return `
-      <article class="app-card">
-        <a class="app-card-link" href="${detailUrl}" aria-label="Открыть ${safeName}">
-          <div class="card-top">
-            ${store.iconMarkup(app)}
-            <span class="category">${category}</span>
-          </div>
-          <div class="card-body">
-            <div class="card-title-row">
-              <h2>${safeName}</h2>
-              ${app.featured ? '<span class="featured-mark" title="Избранное" aria-label="Избранное">★</span>' : ""}
-            </div>
-            <p>${safeTagline}</p>
-          </div>
-          <div class="card-footer">
-            <span>${date}</span>
-            <span>Подробнее →</span>
-          </div>
-        </a>
-      </article>`;
-  }
+  const search =
+    document.getElementById("searchInput");
 
-  function matches(app) {
-    const query = state.query.toLowerCase();
-    const text = `${app.name} ${app.tagline} ${app.description}`.toLowerCase();
-
-    return (
-      (state.category === "all" || app.category === state.category) &&
-      (!state.featuredOnly || app.featured) &&
-      (!query || text.includes(query))
+  const filters =
+    document.getElementById(
+      "categoryFilters"
     );
+
+  const featured =
+    document.getElementById(
+      "featuredOnly"
+    );
+
+  const count =
+    document.getElementById(
+      "resultCount"
+    );
+
+  const appCount =
+    document.getElementById(
+      "appCount"
+    );
+
+  let apps = store.load();
+  let category = "Все";
+
+  if (appCount) {
+    appCount.textContent =
+      apps.length;
   }
 
   function renderFilters() {
-    const categories = [{ id: "all", label: "Все" }, ...store.DATA.categories];
-    filters.innerHTML = categories.map((item) => `
-      <button
-        class="filter-button ${state.category === item.id ? "active" : ""}"
-        type="button"
-        role="tab"
-        aria-selected="${state.category === item.id}"
-        data-category="${store.escapeHtml(item.id)}"
-      >${store.escapeHtml(item.label)}</button>
-    `).join("");
-  }
+    const categories = [
+      "Все",
+      ...new Set(
+        apps.map(
+          app => app.category
+        )
+      )
+    ];
 
-  function bindImageFallbacks() {
-    feed.querySelectorAll("img[data-fallback]").forEach((img) => {
-      img.addEventListener("error", () => {
-        const fallback = document.createElement("div");
-        fallback.className = img.className + " icon-fallback";
-        fallback.setAttribute("aria-hidden", "true");
-        fallback.textContent = img.dataset.fallback || "?";
-        img.replaceWith(fallback);
-      }, { once: true });
+    filters.replaceChildren();
+
+    categories.forEach(name => {
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.type = "button";
+
+      button.className =
+        `chip${
+          name === category
+            ? " active"
+            : ""
+        }`;
+
+      button.textContent = name;
+
+      button.setAttribute(
+        "role",
+        "tab"
+      );
+
+      button.setAttribute(
+        "aria-selected",
+        String(
+          name === category
+        )
+      );
+
+      button.onclick = () => {
+        category = name;
+
+        renderFilters();
+        render();
+      };
+
+      filters.appendChild(button);
     });
   }
 
-  function render() {
-    const apps = store.getApps().filter(matches);
-    feed.innerHTML = apps.map(cardMarkup).join("");
-    emptyState.hidden = apps.length !== 0;
-    bindImageFallbacks();
+  function createCard(app) {
+    const article =
+      document.createElement(
+        "article"
+      );
+
+    article.className =
+      `app-card${
+        app.featured
+          ? " featured"
+          : ""
+      }`;
+
+    const top =
+      document.createElement(
+        "div"
+      );
+
+    top.className =
+      "card-top";
+
+    const img =
+      document.createElement(
+        "img"
+      );
+
+    img.className =
+      "app-icon";
+
+    img.src = app.icon;
+
+    img.alt =
+      `${app.name} — иконка`;
+
+    img.loading = "lazy";
+
+    img.referrerPolicy =
+      "no-referrer";
+
+    img.onerror = () => {
+      img.removeAttribute(
+        "src"
+      );
+
+      img.style.background =
+        "linear-gradient(145deg,#292a30,#111114)";
+    };
+
+    const info =
+      document.createElement(
+        "div"
+      );
+
+    const title =
+      document.createElement(
+        "h2"
+      );
+
+    title.className =
+      "app-title";
+
+    title.textContent =
+      app.name;
+
+    const category =
+      document.createElement(
+        "p"
+      );
+
+    category.className =
+      "app-category";
+
+    category.textContent =
+      app.category;
+
+    info.append(
+      title,
+      category
+    );
+
+    top.append(
+      img,
+      info
+    );
+
+    const description =
+      document.createElement(
+        "p"
+      );
+
+    description.className =
+      "app-description";
+
+    description.textContent =
+      app.description;
+
+    const bottom =
+      document.createElement(
+        "div"
+      );
+
+    bottom.className =
+      "card-bottom";
+
+    const favorite =
+      document.createElement(
+        "span"
+      );
+
+    favorite.className =
+      "favorite-label";
+
+    favorite.textContent =
+      app.featured
+        ? "★ Избранное"
+        : "";
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+    link.className =
+      "detail-link";
+
+    link.href =
+      `app.html?slug=${encodeURIComponent(
+        app.slug
+      )}`;
+
+    link.textContent =
+      "Подробнее →";
+
+    bottom.append(
+      favorite,
+      link
+    );
+
+    article.append(
+      top,
+      description,
+      bottom
+    );
+
+    return article;
   }
 
-  filters.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-category]");
-    if (!button) return;
-    state.category = button.dataset.category;
-    renderFilters();
-    render();
-  });
+  function render() {
+    const query =
+      search.value
+        .trim()
+        .toLowerCase();
 
-  searchInput.addEventListener("input", () => {
-    state.query = searchInput.value.trim();
-    render();
-  });
+    const filtered =
+      apps.filter(app => {
+        const searchable =
+          `${app.name} ${app.description} ${app.category}`
+            .toLowerCase();
 
-  featuredOnly.addEventListener("change", () => {
-    state.featuredOnly = featuredOnly.checked;
-    render();
-  });
+        const matchesSearch =
+          searchable.includes(query);
+
+        const matchesCategory =
+          category === "Все" ||
+          app.category === category;
+
+        const matchesFeatured =
+          !featured.checked ||
+          app.featured;
+
+        return (
+          matchesSearch &&
+          matchesCategory &&
+          matchesFeatured
+        );
+      });
+
+    feed.replaceChildren(
+      ...filtered.map(
+        createCard
+      )
+    );
+
+    empty.hidden =
+      filtered.length !== 0;
+
+    if (count) {
+      count.textContent =
+        `${filtered.length} ${
+          filtered.length === 1
+            ? "приложение"
+            : "приложений"
+        }`;
+    }
+  }
+
+  search.addEventListener(
+    "input",
+    render
+  );
+
+  featured.addEventListener(
+    "change",
+    render
+  );
+
+  const focusSearch =
+    document.getElementById(
+      "focusSearch"
+    );
+
+  if (focusSearch) {
+    focusSearch.onclick = () => {
+      search.focus();
+
+      search.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    };
+  }
+
+  const navSearch =
+    document.getElementById(
+      "navSearch"
+    );
+
+  if (navSearch) {
+    navSearch.onclick = () => {
+      search.focus();
+
+      search.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    };
+  }
 
   renderFilters();
   render();
