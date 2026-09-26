@@ -1,52 +1,30 @@
-(() => {
-  "use strict";
+window.DEFAULT_APPS = [
+  {
+    id: "notion",
+    name: "Notion",
+    slug: "notion",
+    description:
+      "Гибкое пространство для заметок, документов, задач и личных систем.",
+    category: "Продуктивность",
+    icon: "https://www.notion.so/images/logo-ios.png",
+    storeUrl:
+      "https://apps.apple.com/app/notion-notes-tasks-ai/id1232780281",
+    screenshots: [],
+    featured: true
+  },
 
-  window.VITRINA_DATA = {
-    categories: [
-      { id: "games", label: "Игры" },
-      { id: "productivity", label: "Продуктивность" },
-      { id: "health", label: "Здоровье" },
-      { id: "entertainment", label: "Развлечения" },
-      { id: "utilities", label: "Утилиты" }
-    ],
-
-    seedApps: [
-      {
-        id: "pushr",
-        name: "Pushr",
-        category: "productivity",
-        tagline: "Пуш-уведомления без лишнего шума.",
-        description: "Минималистичный инструмент для личных уведомлений и небольших напоминаний.",
-        iconUrl: "https://placehold.co/512x512/png?text=P",
-        storeUrl: "#",
-        screenshots: [],
-        featured: true,
-        releaseDate: "2026-01-15"
-      },
-      {
-        id: "stardew-valley",
-        name: "Stardew Valley",
-        category: "games",
-        tagline: "Тёплая ферма, большая история.",
-        description: "Расслабляющая фермерская RPG с исследованием, отношениями и множеством способов провести игровой день.",
-        iconUrl: "https://placehold.co/512x512/png?text=S",
-        storeUrl: "#",
-        screenshots: [],
-        featured: false,
-        releaseDate: "2025-01-01"
-      },
-      {
-        id: "chatgpt",
-        name: "ChatGPT",
-        category: "utilities",
-        tagline: "Помощник для идей, текста и задач.",
-        description: "Универсальный AI-помощник для поиска идей, работы с текстом, обучения и решения повседневных задач.",
-        iconUrl: "https://placehold.co/512x512/png?text=C",
-        storeUrl: "#",
-        screenshots: [],
-        featured: false,
-        releaseDate: "2025-01-01"
-      }
-    ]
-  };
-})();
+  {
+    id: "things-3",
+    name: "Things 3",
+    slug: "things-3",
+    description:
+      "Минималистичный менеджер задач для спокойного ежедневного планирования.",
+    category: "Продуктивность",
+    icon:
+      "https://culturedcode.com/things/press/images/app-icon.png",
+    storeUrl:
+      "https://apps.apple.com/app/things-3/id904280696",
+    screenshots: [],
+    featured: false
+  }
+];
