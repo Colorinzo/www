@@ -1,214 +1,551 @@
 (() => {
-  "use strict";
+  const store =
+    window.VitrinaStore;
 
-  /*
-   * ВАЖНО: в статическом фронтенде невозможно сделать секретный PIN.
-   * Он хранится здесь только как локальный convenience gate.
-   * Для реальной защиты нужен сервер/API с проверкой секрета на сервере.
-   */
-  const ADMIN_PIN = "2026";
-  const SESSION_KEY = "vitrina.admin.session.v1";
-  const store = window.VitrinaStore;
+  const loginPanel =
+    document.getElementById(
+      "loginPanel"
+    );
 
-  const loginPanel = document.getElementById("loginPanel");
-  const adminPanel = document.getElementById("adminPanel");
-  const loginForm = document.getElementById("loginForm");
-  const pinInput = document.getElementById("pinInput");
-  const loginError = document.getElementById("loginError");
-  const logoutButton = document.getElementById("logoutButton");
+  const adminPanel =
+    document.getElementById(
+      "adminPanel"
+    );
 
-  const form = document.getElementById("appForm");
-  const formTitle = document.getElementById("formTitle");
-  const status = document.getElementById("formStatus");
-  const dataStatus = document.getElementById("dataStatus");
-  const list = document.getElementById("adminList");
-  const countLabel = document.getElementById("countLabel");
+  const password =
+    document.getElementById(
+      "passwordInput"
+    );
 
-  const fields = {
-    id: document.getElementById("appId"),
-    name: document.getElementById("name"),
-    category: document.getElementById("category"),
-    tagline: document.getElementById("tagline"),
-    releaseDate: document.getElementById("releaseDate"),
-    description: document.getElementById("description"),
-    iconUrl: document.getElementById("iconUrl"),
-    storeUrl: document.getElementById("storeUrl"),
-    screenshots: document.getElementById("screenshots"),
-    featured: document.getElementById("featured")
-  };
+  const login =
+    document.getElementById(
+      "loginButton"
+    );
+
+  const error =
+    document.getElementById(
+      "loginError"
+    );
+
+  const form =
+    document.getElementById(
+      "appForm"
+    );
+
+  const list =
+    document.getElementById(
+      "adminList"
+    );
+
+  const importInput =
+    document.getElementById(
+      "importInput"
+    );
+
+  const editingId =
+    document.getElementById(
+      "editingId"
+    );
+
+  const formTitle =
+    document.getElementById(
+      "formTitle"
+    );
+
+  const adminCount =
+    document.getElementById(
+      "adminCount"
+    );
+
+  const LOCAL_PASSWORD =
+    "vitrina2026";
+
+  let apps =
+    store.load();
+
+  const $ = id =>
+    document.getElementById(id);
+
+  /* =========================
+     AUTH
+  ========================= */
 
   function isLoggedIn() {
-    return sessionStorage.getItem(SESSION_KEY) === "1";
+    return (
+      sessionStorage.getItem(
+        "vitrina.admin"
+      ) === "1"
+    );
   }
 
   function showAdmin() {
     loginPanel.hidden = true;
     adminPanel.hidden = false;
-    renderCategories();
+
     renderList();
   }
 
-  function showLogin() {
-    loginPanel.hidden = false;
-    adminPanel.hidden = true;
-  }
-
-  function renderCategories() {
-    fields.category.innerHTML = store.DATA.categories.map((item) =>
-      `<option value="${store.escapeHtml(item.id)}">${store.escapeHtml(item.label)}</option>`
-    ).join("");
-  }
+  /* =========================
+     FORM
+  ========================= */
 
   function resetForm() {
     form.reset();
-    fields.id.value = "";
-    fields.storeUrl.value = "";
-    formTitle.textContent = "Новое приложение";
-    status.textContent = "";
+
+    editingId.value = "";
+
+    formTitle.textContent =
+      "Новое приложение";
   }
 
   function fillForm(app) {
-    fields.id.value = app.id;
-    fields.name.value = app.name;
-    fields.category.value = app.category;
-    fields.tagline.value = app.tagline;
-    fields.releaseDate.value = app.releaseDate;
-    fields.description.value = app.description;
-    fields.iconUrl.value = app.iconUrl;
-    fields.storeUrl.value = app.storeUrl === "#" ? "" : app.storeUrl;
-    fields.screenshots.value = app.screenshots.join("\n");
-    fields.featured.checked = app.featured;
-    formTitle.textContent = `Редактирование: ${app.name}`;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    editingId.value =
+      app.id;
+
+    $("nameInput").value =
+      app.name;
+
+    $("descriptionInput").value =
+      app.description;
+
+    $("categoryInput").value =
+      app.category;
+
+    $("iconInput").value =
+      app.icon;
+
+    $("storeInput").value =
+      app.storeUrl;
+
+    $("screenshotsInput").value =
+      app.screenshots.join(", ");
+
+    $("featuredInput").checked =
+      app.featured;
+
+    formTitle.textContent =
+      `Изменение: ${app.name}`;
+
+    form.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
   }
 
-  function readForm() {
-    const id = fields.id.value.trim() || store.makeUniqueId(fields.name.value);
-    const screenshots = fields.screenshots.value
-      .split(/\r?\n/)
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-    return {
-      id,
-      name: fields.name.value.trim(),
-      category: fields.category.value,
-      tagline: fields.tagline.value.trim(),
-      description: fields.description.value.trim(),
-      iconUrl: fields.iconUrl.value.trim(),
-      storeUrl: fields.storeUrl.value.trim() || "#",
-      screenshots,
-      featured: fields.featured.checked,
-      releaseDate: fields.releaseDate.value
-    };
-  }
+  /* =========================
+     LIST
+  ========================= */
 
   function renderList() {
-    const apps = store.getApps();
-    countLabel.textContent = String(apps.length);
+    adminCount.textContent =
+      apps.length;
 
-    list.innerHTML = apps.map((app) => `
-      <article class="admin-item">
-        <div class="admin-item-main">
-          ${store.iconMarkup(app, "admin-icon")}
-          <div>
-            <h3>${store.escapeHtml(app.name)} ${app.featured ? "★" : ""}</h3>
-            <p>${store.escapeHtml(store.categoryLabel(app.category))} · ${store.escapeHtml(app.id)}</p>
-          </div>
-        </div>
-        <div class="button-row">
-          <button class="button small" type="button" data-edit="${store.escapeHtml(app.id)}">Изменить</button>
-          <button class="button small danger" type="button" data-delete="${store.escapeHtml(app.id)}">Удалить</button>
-        </div>
-      </article>
-    `).join("");
+    list.replaceChildren();
 
-    list.querySelectorAll("[data-edit]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const app = store.getAppById(button.dataset.edit);
-        if (app) fillForm(app);
-      });
-    });
+    if (!apps.length) {
+      const empty =
+        document.createElement(
+          "p"
+        );
 
-    list.querySelectorAll("[data-delete]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const app = store.getAppById(button.dataset.delete);
-        if (!app) return;
-        if (!window.confirm(`Удалить «${app.name}»?`)) return;
+      empty.className =
+        "muted";
 
-        try {
-          store.removeApp(app.id);
-          renderList();
-          status.textContent = "Удалено.";
-        } catch (error) {
-          status.textContent = error.message;
+      empty.textContent =
+        "Каталог пуст.";
+
+      list.appendChild(empty);
+
+      return;
+    }
+
+    apps.forEach(app => {
+      const row =
+        document.createElement(
+          "div"
+        );
+
+      row.className =
+        "admin-item";
+
+      const info =
+        document.createElement(
+          "div"
+        );
+
+      info.className =
+        "admin-item-info";
+
+      const name =
+        document.createElement(
+          "strong"
+        );
+
+      name.textContent =
+        app.name;
+
+      const meta =
+        document.createElement(
+          "span"
+        );
+
+      meta.textContent =
+        `${app.category}${
+          app.featured
+            ? " · избранное"
+            : ""
+        }`;
+
+      info.append(
+        name,
+        meta
+      );
+
+      const actions =
+        document.createElement(
+          "div"
+        );
+
+      actions.className =
+        "admin-item-actions";
+
+      /* EDIT */
+
+      const edit =
+        document.createElement(
+          "button"
+        );
+
+      edit.type = "button";
+
+      edit.textContent =
+        "Изменить";
+
+      edit.onclick = () =>
+        fillForm(app);
+
+      /* DELETE */
+
+      const remove =
+        document.createElement(
+          "button"
+        );
+
+      remove.type = "button";
+
+      remove.textContent =
+        "Удалить";
+
+      remove.onclick = () => {
+        if (
+          !confirm(
+            `Удалить «${app.name}»?`
+          )
+        ) {
+          return;
         }
-      });
+
+        apps =
+          store.save(
+            apps.filter(
+              item =>
+                item.id !== app.id
+            )
+          );
+
+        renderList();
+      };
+
+      actions.append(
+        edit,
+        remove
+      );
+
+      row.append(
+        info,
+        actions
+      );
+
+      list.appendChild(row);
     });
   }
 
-  loginForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    loginError.hidden = pinInput.value === ADMIN_PIN;
-    if (!loginError.hidden) return;
-    sessionStorage.setItem(SESSION_KEY, "1");
-    pinInput.value = "";
-    showAdmin();
-  });
+  /* =========================
+     LOGIN
+  ========================= */
 
-  logoutButton.addEventListener("click", () => {
-    sessionStorage.removeItem(SESSION_KEY);
-    showLogin();
-  });
+  login.onclick = () => {
+    if (
+      password.value ===
+      LOCAL_PASSWORD
+    ) {
+      sessionStorage.setItem(
+        "vitrina.admin",
+        "1"
+      );
 
-  document.getElementById("resetButton").addEventListener("click", resetForm);
+      error.hidden = true;
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    status.textContent = "";
+      showAdmin();
 
-    try {
-      const data = readForm();
-      if (fields.id.value) {
-        store.updateApp(fields.id.value, data);
-        status.textContent = "Изменения сохранены.";
-      } else {
-        store.createApp(data);
-        status.textContent = "Приложение добавлено.";
+      return;
+    }
+
+    error.hidden = false;
+  };
+
+  password.addEventListener(
+    "keydown",
+    event => {
+      if (event.key === "Enter") {
+        login.click();
       }
-      resetForm();
-      renderList();
-    } catch (error) {
-      status.textContent = error.message || "Не удалось сохранить.";
     }
-  });
+  );
 
-  document.getElementById("exportButton").addEventListener("click", () => {
-    try {
-      store.exportApps();
-      dataStatus.textContent = "JSON экспортирован.";
-    } catch (error) {
-      dataStatus.textContent = error.message;
+  /* =========================
+     SAVE
+  ========================= */
+
+  form.onsubmit = event => {
+    event.preventDefault();
+
+    const data = {
+      id:
+        editingId.value ||
+        undefined,
+
+      name:
+        $("nameInput").value,
+
+      description:
+        $("descriptionInput")
+          .value,
+
+      category:
+        $("categoryInput").value,
+
+      icon:
+        $("iconInput").value,
+
+      storeUrl:
+        $("storeInput").value,
+
+      screenshots:
+        $("screenshotsInput")
+          .value
+          .split(",")
+          .map(value =>
+            value.trim()
+          )
+          .filter(Boolean),
+
+      featured:
+        $("featuredInput")
+          .checked
+    };
+
+    const normalized =
+      store.normalizeApp(
+        data,
+        apps.length
+      );
+
+    if (!normalized) {
+      alert(
+        "Проверь поля и HTTPS-ссылки."
+      );
+
+      return;
     }
-  });
 
-  document.getElementById("importInput").addEventListener("change", async (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+    if (editingId.value) {
+      apps =
+        apps.map(item =>
+          item.id ===
+          editingId.value
+            ? {
+                ...normalized,
+                id: item.id,
+                slug: item.slug
+              }
+            : item
+        );
+    } else {
+      normalized.id =
+        `${normalized.id}-${Date.now()}`;
 
-    try {
-      const apps = await store.importAppsFromFile(file);
-      dataStatus.textContent = `Импортировано: ${apps.length}.`;
-      resetForm();
-      renderList();
-    } catch (error) {
-      dataStatus.textContent = error.message || "Импорт не удался.";
-    } finally {
-      event.target.value = "";
+      normalized.slug =
+        `${normalized.slug}-${Date.now()}`;
+
+      apps.push(normalized);
     }
-  });
 
-  renderCategories();
-  if (isLoggedIn()) showAdmin();
-  else showLogin();
+    apps =
+      store.save(apps);
+
+    resetForm();
+    renderList();
+  };
+
+  /* =========================
+     CANCEL
+  ========================= */
+
+  $("cancelEditButton").onclick =
+    resetForm;
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
+  $("logoutButton").onclick = () => {
+    sessionStorage.removeItem(
+      "vitrina.admin"
+    );
+
+    location.reload();
+  };
+
+  /* =========================
+     RESET
+  ========================= */
+
+  $("resetButton").onclick = () => {
+    if (
+      !confirm(
+        "Сбросить локальный каталог к данным из apps-data.js?"
+      )
+    ) {
+      return;
+    }
+
+    apps =
+      store.reset();
+
+    resetForm();
+    renderList();
+  };
+
+  /* =========================
+     EXPORT
+  ========================= */
+
+  $("exportButton").onclick = () => {
+    const blob =
+      new Blob(
+        [
+          JSON.stringify(
+            apps,
+            null,
+            2
+          )
+        ],
+        {
+          type:
+            "application/json"
+        }
+      );
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+    link.href = url;
+
+    link.download =
+      "vitrina-apps.json";
+
+    document.body.appendChild(
+      link
+    );
+
+    link.click();
+
+    link.remove();
+
+    setTimeout(
+      () =>
+        URL.revokeObjectURL(
+          url
+        ),
+      500
+    );
+  };
+
+  /* =========================
+     IMPORT
+  ========================= */
+
+  importInput.onchange =
+    async () => {
+      const file =
+        importInput.files?.[0];
+
+      if (!file) {
+        return;
+      }
+
+      if (
+        file.size >
+        store.MAX_IMPORT_BYTES
+      ) {
+        alert(
+          "Файл слишком большой."
+        );
+
+        importInput.value = "";
+
+        return;
+      }
+
+      try {
+        const parsed =
+          JSON.parse(
+            await file.text()
+          );
+
+        const clean =
+          store.normalizeApps(
+            parsed
+          );
+
+        if (!clean.length) {
+          alert(
+            "В JSON нет валидных приложений."
+          );
+
+          return;
+        }
+
+        apps =
+          store.save(clean);
+
+        renderList();
+
+        alert(
+          `Импортировано: ${clean.length}`
+        );
+      } catch {
+        alert(
+          "Не удалось прочитать JSON."
+        );
+      }
+
+      importInput.value = "";
+    };
+
+  /* =========================
+     START
+  ========================= */
+
+  if (isLoggedIn()) {
+    showAdmin();
+  }
 })();
