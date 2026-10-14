@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APPDROP — Редакционный каталог лучших iOS-приложений</title>
+  <!-- Шрифт Manrope -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ВЕРХНЯЯ НАВИГАЦИЯ (В СТИЛЕ ROZETKED) -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-group">
+        <a href="#" class="logo" id="resetFilterLogo">
+          <span class="logo-dot"></span>
+          APPDROP
+          <span class="logo-badge">iOS</span>
+        </a>
+        <p class="brand-tagline">Отборные приложения из App Store без мусора</p>
+      </div>
+
+      <div class="header-actions">
+        <!-- Поиск -->
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Поиск приложений, тегов..." autocomplete="off" />
+        </div>
+
+        <!-- Переключатель темы (Dark OLED / Studio White как на рефах) -->
+        <button class="icon-btn" id="themeToggleBtn" title="Переключить тему (Тёмная / Студийная светлая)">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+          </svg>
+        </button>
+
+        <!-- Кнопка входа в админку -->
+        <button class="admin-trigger-btn" id="openAdminBtn" title="Панель администратора (Shift + A)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Админка</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Полоса рубрик как на Rozetked -->
+    <div class="categories-bar">
+      <div class="container categories-scroll" id="categoryPills">
+        <button class="cat-pill active" data-category="all">Все находки</button>
+        <button class="cat-pill" data-category="AI и Нейросети">AI и Нейросети</button>
+        <button class="cat-pill" data-category="Спорт и Здоровье">Спорт и Здоровье</button>
+        <button class="cat-pill" data-category="Игры и Arcade">Игры и Arcade</button>
+        <button class="cat-pill" data-category="Утилиты">Утилиты</button>
+        <button class="cat-pill" data-category="Дизайн и Фото">Дизайн и Фото</button>
+        <button class="cat-pill" data-category="Продуктивность">Продуктивность</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main class="container main-content">
+
+    <!-- Блок "Главное / Выбор редакции" (верхний ряд Rozetked) -->
+    <section class="featured-section" id="featuredSection">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="pulse-indicator"></span>
+          <h2 class="section-title">Выбор редакции</h2>
+        </div>
+        <span class="section-meta" id="totalAppsCounter">Загрузка...</span>
+      </div>
+      <div class="featured-grid" id="featuredGrid"></div>
+    </section>
+
+    <!-- Основная лента публикаций (с пагинацией как на Rozetked) -->
+    <section class="feed-section">
+      <div class="section-header">
+        <h2 class="section-title">Свежие релизы и находки</h2>
+        <div class="sort-controls">
+          <button class="sort-btn active" data-sort="newest">Сначала новые</button>
+          <button class="sort-btn" data-sort="rating">По рейтингу</button>
+        </div>
+      </div>
+
+      <div class="feed-grid" id="feedGrid"></div>
+
+      <!-- Пагинация / Загрузить ещё -->
+      <div class="pagination-wrap" id="paginationWrap">
+        <button class="load-more-btn" id="loadMoreBtn">Показать ещё приложения</button>
+        <div class="page-numbers" id="pageNumbers"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ПОДВАЛ САЙТА -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="logo">
+          <span class="logo-dot"></span>
+          APPDROP
+        </div>
+        <p class="footer-desc">Авторский дайджест полезных приложений из App Store. Все торговые марки принадлежат их правообладателям.</p>
+      </div>
+      <div class="footer-right">
+        <span class="hotkey-hint">Быстрый вход в админку: <kbd>Shift</kbd> + <kbd>A</kbd></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- МОДАЛЬНОЕ ОКНО: ДЕТАЛЬНЫЙ ОБЗОР ПРИЛОЖЕНИЯ + QR-КОД -->
+  <div class="modal-backdrop" id="appDetailModal" aria-hidden="true">
+    <div class="modal-card detail-modal-card">
+      <button class="modal-close" id="closeDetailModal" aria-label="Закрыть">&times;</button>
+      <div id="appDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: АДМИН-ПАНЕЛЬ (ДОБАВЛЕНИЕ / РЕДАКТИРОВАНИЕ / ИМПОРТ ИЗ APP STORE) -->
+  <div class="modal-backdrop" id="adminModal" aria-hidden="true">
+    <div class="modal-card admin-modal-card">
+      <div class="admin-modal-header">
+        <div>
+          <span class="admin-badge">STUDIO ADMIN</span>
+          <h3>Управление публикациями</h3>
+        </div>
+        <button class="modal-close" id="closeAdminModal" aria-label="Закрыть">&times;</button>
+      </div>
+
+      <!-- Экран ввода PIN-кода -->
+      <div id="adminAuthView" class="admin-auth-view">
+        <div class="auth-box">
+          <h4>Вход для автора</h4>
+          <p>Введите PIN-код администратора (по умолчанию: <code>2026</code>)</p>
+          <div class="pin-input-row">
+            <input type="password" id="adminPinInput" placeholder="PIN-код..." maxlength="16" />
+            <button class="primary-btn" id="adminLoginBtn">Войти</button>
+          </div>
+          <p class="auth-error" id="adminAuthError"></p>
+        </div>
+      </div>
+
+      <!-- Основной интерфейс админки -->
+      <div id="adminPanelView" class="admin-panel-view hidden">
+        <!-- Вкладки админки -->
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-tab="editor">➕ Опубликовать / Редактор</button>
+          <button class="admin-tab" data-tab="list">📋 Все посты (<span id="adminPostsCount">0</span>)</button>
+          <button class="admin-tab" data-tab="sync">☁️ База JSON и Облако</button>
+        </div>
+
+        <!-- ВКЛАДКА 1: РЕДАКТОР И АВТОПОИСК В APP STORE -->
+        <div class="admin-tab-content active" id="tab-editor">
+          <!-- Умный импорт из App Store -->
+          <div class="appstore-autofill-box">
+            <div class="autofill-header">
+              <span class="sparkle-badge">⚡ Автозаполнение из App Store</span>
+              <span class="autofill-sub">Вставь ссылку <code>apps.apple.com/...</code> или название приложения</span>
+            </div>
+            <div class="autofill-controls">
+              <input type="text" id="itunesQueryInput" placeholder="Например: ChatGPT, Pushr или ссылка на App Store..." />
+              <select id="itunesCountrySelect" title="Регион App Store">
+                <option value="us">🇺🇸 US Store</option>
+                <option value="ru">🇷🇺 RU Store</option>
+                <option value="kz">🇰🇿 KZ Store</option>
+              </select>
+              <button type="button" class="secondary-btn" id="itunesSearchBtn">Найти в App Store</button>
+            </div>
+            <!-- Результаты поиска в App Store -->
+            <div id="itunesResultsList" class="itunes-results-list hidden"></div>
+          </div>
+
+          <!-- Форма публикации -->
+          <form id="appPostForm" class="admin-form">
+            <input type="hidden" id="postIdInput" />
+
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label>Название приложения *</label>
+                <input type="text" id="appNameInput" required placeholder="Например: Pushr" />
+              </div>
+              <div class="form-group">
+                <label>Короткий слоган / подзаголовок *</label>
+                <input type="text" id="appTaglineInput" required placeholder="Считает отжимания через Face ID" />
+              </div>
+            </div>
+
+            <div class="form-row three-col">
+              <div class="form-group">
+                <label>Категория *</label>
+                <select id="appCategoryInput">
+                  <option value="AI и Нейросети">AI и Нейросети</option>
+                  <option value="Спорт и Здоровье">Спорт и Здоровье</option>
+                  <option value="Игры и Arcade">Игры и Arcade</option>
+                  <option value="Утилиты">Утилиты</option>
+                  <option value="Дизайн и Фото">Дизайн и Фото</option>
+                  <option value="Продуктивность">Продуктивность</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Формат карточки (по рефам) *</label>
+                <select id="appLayoutInput">
+                  <option value="split">Витрина Pushr (iPhone слева + Иконка справа)</option>
+                  <option value="mockup">Карточка с iPhone (как реф ChatGPT / Library)</option>
+                  <option value="editorial">Стандартная Rozetked (превью + статья)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Цена / модель *</label>
+                <input type="text" id="appPriceInput" value="Бесплатно" placeholder="Бесплатно / 299 ₽" />
+              </div>
+            </div>
+
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label>Ссылка на скачивание в App Store *</label>
+                <input type="url" id="appStoreUrlInput" required placeholder="https://apps.apple.com/app/..." />
+              </div>
+              <div class="form-group">
+                <label>URL иконки приложения (512×512)</label>
+                <input type="url" id="appIconUrlInput" placeholder="https://is1-ssl.mzstatic.com/..." />
+              </div>
+            </div>
+
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label>URL скриншота экрана iPhone (или рендера)</label>
+                <input type="url" id="appScreenshotUrlInput" placeholder="Вставь ссылку на скриншот или оставь для встроенного демо" />
+              </div>
+              <div class="form-group">
+                <label>Рейтинг и разработчик</label>
+                <div class="inline-inputs">
+                  <input type="number" id="appRatingInput" step="0.1" min="1" max="5" value="4.9" placeholder="4.9" style="width:90px" />
+                  <input type="text" id="appDeveloperInput" placeholder="OpenAI / Indie Dev" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Подробный обзор от тебя (поддерживаются абзацы) *</label>
+              <textarea id="appDescriptionInput" rows="3" required placeholder="Расскажи, чем приложение зацепило, почему его стоит скачать и какие фишки внутри..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Ключевые фишки (каждая с новой строки — отобразятся красиво как на экране Welcome to ChatGPT)</label>
+              <textarea id="appHighlightsInput" rows="3" placeholder="Синхронизация истории между устройствами&#10;Работает бесплатно и без рекламы&#10;Минималистичный OLED-интерфейс"></textarea>
+            </div>
+
+            <div class="form-check-row">
+              <label class="checkbox-label">
+                <input type="checkbox" id="appFeaturedInput" checked />
+                <span>Закрепить в блоке «Выбор редакции» (верхняя сетка Rozetked)</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" id="appRawImageInput" />
+                <span>Картинка уже с рамкой телефона (не оборачивать в CSS-корпус iPhone)</span>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="primary-btn" id="savePostBtn">Опубликовать на сайте</button>
+              <button type="button" class="ghost-btn" id="resetFormBtn">Очистить форму</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ВКЛАДКА 2: СПИСОК ОПУБЛИКОВАННЫХ ПОСТОВ -->
+        <div class="admin-tab-content" id="tab-list">
+          <div class="admin-posts-list" id="adminPostsList"></div>
+        </div>
+
+        <!-- ВКЛАДКА 3: СИНХРОНИЗАЦИЯ И ЭКСПОРТ JSON -->
+        <div class="admin-tab-content" id="tab-sync">
+          <div class="sync-grid">
+            <div class="sync-card">
+              <h4>1. Экспорт файла <code>data.json</code> (для GitHub Pages / Vercel)</h4>
+              <p>Если ты хостишь сайт как статику бесплатно, добавь новые приложения через редактор, нажми «Скачать data.json» и замени файл в папке сайта — все посетители увидят обновления.</p>
+              <div class="sync-btn-row">
+                <button type="button" class="primary-btn" id="downloadJsonBtn">⬇ Скачать data.json</button>
+                <button type="button" class="secondary-btn" id="copyJsonBtn">📋 Скопировать JSON в буфер</button>
+                <button type="button" class="ghost-btn" id="resetDefaultDataBtn">Сбросить к демо-базе</button>
+              </div>
+            </div>
+
+            <div class="sync-card">
+              <h4>2. Прямая публикация в облако без бэкенда (JSONBin.io)</h4>
+              <p>Хочешь постить прямо с телефона из браузера без перезаливки файлов? Создай бесплатный Bin на <code>jsonbin.io</code>, вставь Bin ID и Master Key ниже. При нажатии «Опубликовать» база будет обновляться у всех посетителей автоматически.</p>
+              <div class="form-group">
+                <label>JSONBin Bin ID</label>
+                <input type="text" id="jsonBinIdInput" placeholder="Например: 67a1b2c3e41b4d34e4..." />
+              </div>
+              <div class="form-group">
+                <label>X-Master-Key (нужен только тебе для записи)</label>
+                <input type="password" id="jsonBinKeyInput" placeholder="$2a$10$..." />
+              </div>
+              <div class="sync-btn-row">
+                <button type="button" class="primary-btn" id="saveCloudConfigBtn">Сохранить и выгрузить в облако</button>
+              </div>
+              <p id="cloudSyncStatus" class="sync-status"></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
