@@ -1,0 +1,1355 @@
+:root {
+  /* Тёмная тема по умолчанию (OLED + графитовый стиль Rozetked Dark) */
+  --bg-page: #09090b;
+  --bg-card: #121216;
+  --bg-card-hover: #17171d;
+  --bg-showcase: #18181f;
+  --bg-elevated: #1e1e26;
+  --text-main: #f4f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.18);
+  --accent: #ffffff;
+  --accent-contrast: #09090b;
+  --brand-red: #ff3b30;
+  --brand-blue: #007aff;
+  --brand-green: #30d158;
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Светлая студийная тема (как белый фон вокруг айфонов на референсах) */
+html[data-theme="light"] {
+  --bg-page: #f5f5f7;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  --bg-showcase: #f8f8fa;
+  --bg-elevated: #efeff4;
+  --text-main: #111113;
+  --text-secondary: #52525b;
+  --text-muted: #8e8e93;
+  --border-subtle: rgba(0, 0, 0, 0.07);
+  --border-hover: rgba(0, 0, 0, 0.16);
+  --accent: #111113;
+  --accent-contrast: #ffffff;
+  --shadow-card: 0 18px 36px -12px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================
+   ШАПКА И НАВИГАЦИЯ (В ДУХЕ ROZETKED)
+   ========================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg-page) 86%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: 20px;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+.logo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--brand-red);
+  box-shadow: 0 0 12px var(--brand-red);
+}
+
+.logo-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.brand-tagline {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding-left: 16px;
+  border-left: 1px solid var(--border-subtle);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-box {
+  position: relative;
+  width: 260px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+}
+
+.search-box input {
+  width: 100%;
+  padding: 9px 14px 9px 36px;
+  border-radius: 99px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+  border-color: var(--text-secondary);
+}
+
+.icon-btn,
+.admin-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 13px;
+  border-radius: 99px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.icon-btn:hover,
+.admin-trigger-btn:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-elevated);
+}
+
+.icon-btn svg,
+.admin-trigger-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Полоса категорий */
+.categories-bar {
+  border-top: 1px solid var(--border-subtle);
+  padding: 10px 0;
+}
+
+.categories-scroll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.categories-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.cat-pill {
+  white-space: nowrap;
+  padding: 6px 15px;
+  border-radius: 99px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.cat-pill:hover {
+  color: var(--text-main);
+  background: var(--bg-card);
+}
+
+.cat-pill.active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* ==========================================
+   СЕКЦИИ И СЕТКА КАРТОЧЕК (ROZETKED + APPLE)
+   ========================================== */
+.main-content {
+  padding-top: 32px;
+  padding-bottom: 80px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pulse-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  box-shadow: 0 0 10px var(--brand-green);
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.section-meta {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.sort-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.sort-btn {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sort-btn.active {
+  color: var(--text-main);
+  border-color: var(--text-secondary);
+}
+
+/* Верхняя Bento-сетка */
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 22px;
+  margin-bottom: 52px;
+}
+
+/* Основная лента */
+.feed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+/* Общий стиль карточки */
+.app-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: var(--shadow-card);
+}
+
+.app-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+}
+
+/* 1. КАРТОЧКА SPLIT-ВИТРИНА (Точь-в-точь как референс Pushr) */
+.card-split {
+  grid-column: span 7;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  padding: 28px 32px;
+  gap: 28px;
+}
+
+.split-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.app-squircle-icon {
+  width: 84px;
+  height: 84px;
+  border-radius: 22px;
+  object-fit: cover;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #1c1c1e;
+}
+
+.split-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.split-pitch {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* 2. КАРТОЧКА С МОКАПОМ IPHONE (Как референсы ChatGPT и Library) */
+.card-mockup {
+  grid-column: span 5;
+  padding: 26px;
+}
+
+.feed-grid .card-split,
+.feed-grid .card-mockup,
+.feed-grid .card-editorial {
+  grid-column: span 1;
+}
+
+.feed-grid .card-split {
+  grid-template-columns: 1fr;
+  padding: 24px;
+}
+
+.card-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.category-tag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 5px 11px;
+  border-radius: 99px;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.rating-pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fbbf24;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==========================================
+   РЕАЛИСТИЧНЫЙ CSS-МОКАП IPHONE (КАК НА РЕФАХ)
+   ========================================== */
+.iphone-stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-showcase);
+  border-radius: var(--radius-lg);
+  padding: 22px 16px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border: 1px solid var(--border-subtle);
+}
+
+.card-split .iphone-stage {
+  margin-bottom: 0;
+  padding: 18px 12px;
+}
+
+.iphone-frame {
+  width: 232px;
+  height: 468px;
+  background: #000000;
+  border-radius: 42px;
+  padding: 11px;
+  border: 3px solid #2c2c30;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 24px 48px rgba(0, 0, 0, 0.55);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.iphone-screen {
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+}
+
+.iphone-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  z-index: 3;
+}
+
+.dynamic-island {
+  width: 68px;
+  height: 18px;
+  background: #050505;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+}
+
+.iphone-screen-body {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.iphone-screen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.iphone-home-indicator {
+  width: 86px;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.35);
+  margin: 6px auto 6px;
+}
+
+/* Встроенные интерактивные экраны по 3 референсам (чтобы сразу выглядело 1-в-1) */
+.screen-preset-chatgpt {
+  padding: 18px 16px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  background: #000;
+}
+
+.cg-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.18;
+  margin-bottom: 8px;
+}
+
+.cg-sub {
+  font-size: 0.68rem;
+  color: #8e8e93;
+  line-height: 1.35;
+  margin-bottom: 14px;
+}
+
+.cg-points {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.cg-point {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 9px;
+  align-items: start;
+}
+
+.cg-point-icon {
+  font-size: 14px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.cg-point-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cg-point-desc {
+  font-size: 0.62rem;
+  color: #8e8e93;
+  line-height: 1.3;
+}
+
+.cg-btn {
+  margin-top: auto;
+  width: 100%;
+  padding: 9px;
+  border-radius: 99px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Экран Pushr (Референс 2) */
+.screen-preset-pushr {
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  height: 100%;
+  background: #000;
+}
+
+.pushr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: -0.03em;
+}
+
+.pushr-box {
+  background: #111113;
+  border-radius: 14px;
+  padding: 11px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pushr-big-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pushr-38 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pushr-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.pushr-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  padding-top: 7px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.6rem;
+  color: #8e8e93;
+}
+
+.pushr-mini-stats strong {
+  display: block;
+  font-size: 0.75rem;
+  color: #a1a1aa;
+}
+
+.pushr-days {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 0.58rem;
+  color: #71717a;
+}
+
+.pushr-day-active {
+  background: #fff;
+  color: #000;
+  font-weight: 800;
+  padding: 4px 6px;
+  border-radius: 99px;
+}
+
+.pushr-global-num {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-top: 3px;
+}
+
+.pushr-start-btn {
+  margin-top: auto;
+  align-self: center;
+  background: #18181b;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 7px 18px;
+  border-radius: 99px;
+}
+
+/* Экран Library / Apple Arcade (Референс 3) */
+.screen-preset-library {
+  padding: 12px 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  background: #000;
+}
+
+.lib-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.lib-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #bbf7d0;
+  color: #111;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+}
+
+.lib-pill {
+  padding: 9px 11px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.68rem;
+}
+
+.lib-pill-red {
+  background: linear-gradient(90deg, #5c2223, #271516);
+}
+.lib-pill-amber {
+  background: linear-gradient(90deg, #5c3b1e, #261c14);
+}
+.lib-pill-blue {
+  background: linear-gradient(90deg, #1e3a4c, #131f26);
+}
+
+.lib-pill span {
+  display: block;
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.lib-subhead {
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.lib-game-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.65rem;
+}
+
+.lib-game-play {
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: #27272a;
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+/* ==========================================
+   НИЖНЯЯ ЧАСТЬ КАРТОЧКИ И КНОПКИ APP STORE
+   ========================================== */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-mini-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.card-title {
+  font-size: 1.22rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+
+.card-tagline {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.card-excerpt {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.appstore-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 14px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.appstore-btn:hover {
+  opacity: 0.9;
+}
+
+.qr-btn,
+.details-btn {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.qr-btn:hover,
+.details-btn:hover {
+  border-color: var(--text-secondary);
+}
+
+/* ==========================================
+   ПАГИНАЦИЯ (В СТИЛЕ ROZETKED)
+   ========================================== */
+.pagination-wrap {
+  margin-top: 38px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.load-more-btn {
+  width: 100%;
+  max-width: 420px;
+  padding: 15px 24px;
+  border-radius: 16px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.load-more-btn:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-elevated);
+}
+
+.page-numbers {
+  display: flex;
+  gap: 8px;
+}
+
+.page-num-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.page-num-btn.active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* ==========================================
+   МОДАЛЬНЫЕ ОКНА И АДМИН-ПАНЕЛЬ
+   ========================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.74);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.65);
+}
+
+.detail-modal-card {
+  max-width: 780px;
+}
+
+.admin-modal-card {
+  max-width: 860px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  color: var(--text-main);
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+/* Внутренности модалки обзора + QR */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 24px;
+  align-items: start;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.detail-highlights {
+  margin: 18px 0;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-showcase);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.qr-card-box {
+  background: var(--bg-showcase);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  text-align: center;
+}
+
+.qr-card-box img {
+  width: 160px;
+  height: 160px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+/* АДМИНКА */
+.admin-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.admin-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--brand-green);
+}
+
+.auth-box {
+  padding: 28px;
+  text-align: center;
+  background: var(--bg-showcase);
+  border-radius: var(--radius-lg);
+}
+
+.pin-input-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+}
+
+.admin-tab {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-tab.active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.admin-tab-content {
+  display: none;
+}
+
+.admin-tab-content.active {
+  display: block;
+}
+
+/* Бокс автозаполнения из App Store */
+.appstore-autofill-box {
+  background: var(--bg-showcase);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.autofill-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.sparkle-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--brand-green);
+}
+
+.autofill-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.autofill-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.itunes-results-list {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.itunes-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.itunes-item:hover {
+  border-color: var(--brand-green);
+}
+
+.itunes-item img {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+}
+
+/* Поля формы */
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-row {
+  display: grid;
+  gap: 14px;
+}
+
+.two-col {
+  grid-template-columns: 1fr 1fr;
+}
+
+.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.admin-form input[type="text"],
+.admin-form input[type="url"],
+.admin-form input[type="number"],
+.admin-form input[type="password"],
+.admin-form select,
+.admin-form textarea,
+.autofill-controls input,
+.autofill-controls select,
+.pin-input-row input,
+.sync-card input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 11px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-page);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.88rem;
+}
+
+.inline-inputs {
+  display: flex;
+  gap: 8px;
+}
+
+.form-check-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 6px 0;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.form-actions,
+.sync-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.primary-btn,
+.secondary-btn,
+.ghost-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.primary-btn {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.secondary-btn {
+  background: var(--bg-elevated);
+  color: var(--text-main);
+  border-color: var(--border-subtle);
+}
+
+.ghost-btn {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+}
+
+/* Список постов в админке */
+.admin-posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-post-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--bg-showcase);
+  border: 1px solid var(--border-subtle);
+}
+
+.admin-post-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-post-info img {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+}
+
+.sync-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.sync-card {
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-showcase);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Подвал */
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 32px 0;
+  margin-top: 40px;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.hotkey-hint {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+kbd {
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.75rem;
+}
+
+/* Адаптив под мобилки */
+@media (max-width: 1024px) {
+  .card-split,
+  .card-mockup {
+    grid-column: span 12;
+  }
+  .feed-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .brand-tagline {
+    display: none;
+  }
+  .header-inner {
+    height: auto;
+    padding: 12px 20px;
+    flex-wrap: wrap;
+  }
+  .search-box {
+    width: 100%;
+    order: 3;
+  }
+  .card-split {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  .feed-grid {
+    grid-template-columns: 1fr;
+  }
+  .two-col,
+  .three-col,
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
