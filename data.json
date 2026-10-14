@@ -1,0 +1,117 @@
+[
+  {
+    "id": "pushr-app",
+    "name": "Pushr",
+    "tagline": "Counts your push-ups automatically using facial recognition technology.",
+    "category": "Спорт и Здоровье",
+    "layout": "split",
+    "price": "Бесплатно",
+    "rating": 4.9,
+    "developer": "Pushr Fitness Labs",
+    "appStoreUrl": "https://apps.apple.com/us/app/pushr-push-up-counter/id6478849200",
+    "iconUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=256&auto=format&fit=crop&q=80",
+    "screenshotUrl": "",
+    "presetScreen": "pushr",
+    "rawImage": false,
+    "featured": true,
+    "createdAt": "2026-10-14T10:00:00Z",
+    "description": "Минималистичный трекер отжиманий в чисто чёрном OLED-дизайне. Достаточно положить iPhone на пол перед собой — приложение автоматически считает каждое повторение через фронтальную камеру и Face ID, ведёт статистику по дням недели и суммирует глобальный рекорд всех пользователей в мире.",
+    "highlights": [
+      "Автоматический подсчёт отжиманий лицом без касания экрана",
+      "Наглядный календарь серии (Streak) по дням недели и статистика за месяц",
+      "Глобальный счётчик отжиманий комьюнити со всего мира"
+    ]
+  },
+  {
+    "id": "chatgpt-official",
+    "name": "ChatGPT",
+    "tagline": "Официальный ИИ-ассистент от OpenAI с синхронизацией истории",
+    "category": "AI и Нейросети",
+    "layout": "mockup",
+    "price": "Бесплатно",
+    "rating": 4.9,
+    "developer": "OpenAI",
+    "appStoreUrl": "https://apps.apple.com/us/app/chatgpt/id6448311069",
+    "iconUrl": "https://images.unsplash.com/photo-1684369175833-4b445ad6bfb5?w=256&auto=format&fit=crop&q=80",
+    "screenshotUrl": "",
+    "presetScreen": "chatgpt",
+    "rawImage": false,
+    "featured": true,
+    "createdAt": "2026-10-13T18:30:00Z",
+    "description": "Официальный клиент ChatGPT для iOS. Полностью бесплатный базовый доступ, моментальная синхронизация чатов между всеми устройствами, голосовой режим и эталонный тактильный отклик при генерации текста.",
+    "highlights": [
+      "Бесплатное официальное приложение с последними моделями OpenAI",
+      "Полный контроль над историей чатов и приватностью данных",
+      "Мгновенная синхронизация диалогов между iPhone, iPad и Mac"
+    ]
+  },
+  {
+    "id": "apple-games-library",
+    "name": "Apple Arcade & Library",
+    "tagline": "Единый игровой хаб с достижениями, событиями и коллекцией без рекламы",
+    "category": "Игры и Arcade",
+    "layout": "mockup",
+    "price": "Подписка",
+    "rating": 4.8,
+    "developer": "Apple Inc.",
+    "appStoreUrl": "https://apps.apple.com/us/story/id1477058939",
+    "iconUrl": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=256&auto=format&fit=crop&q=80",
+    "screenshotUrl": "",
+    "presetScreen": "library",
+    "rawImage": false,
+    "featured": false,
+    "createdAt": "2026-10-12T15:00:00Z",
+    "description": "Обновлённая игровая библиотека объединяет твои установленные хиты вроде Stardew Valley и Hello Kitty Island Adventure, карточки свежих игровых ивентов и счётчик выполненных достижений Game Center в одном лаконичном интерфейсе.",
+    "highlights": [
+      "Быстрый запуск недавно скачанных игр в одно касание",
+      "Отслеживание игровых событий (Events) и редких ачивок",
+      "Полное отсутствие встроенной рекламы и донат-таймеров"
+    ]
+  },
+  {
+    "id": "blackmagic-cam",
+    "name": "Blackmagic Camera",
+    "tagline": "Профессиональные кино-настройки камеры iPhone бесплатно",
+    "category": "Дизайн и Фото",
+    "layout": "editorial",
+    "price": "Бесплатно",
+    "rating": 4.9,
+    "developer": "Blackmagic Design",
+    "appStoreUrl": "https://apps.apple.com/us/app/blackmagic-camera/id6449580241",
+    "iconUrl": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=256&auto=format&fit=crop&q=80",
+    "screenshotUrl": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&auto=format&fit=crop&q=80",
+    "presetScreen": "",
+    "rawImage": false,
+    "featured": false,
+    "createdAt": "2026-10-11T12:10:00Z",
+    "description": "Кинематографический интерфейс от создателей DaVinci Resolve. Позволяет вручную выставлять выдержку, ISO, баланс белого, снимать в Apple ProRes Log и сразу выгружать исходники в облако.",
+    "highlights": [
+      "Полностью бесплатно без подписок и водяных знаков",
+      "Ручной контроль затвора, фокуса, зебры и гистограммы",
+      "Поддержка записи в Apple Log и ProRes"
+    ]
+  },
+  {
+    "id": "blip-transfer",
+    "name": "Blip — Fast File Transfer",
+    "tagline": "Молниеносная передача огромных видео между iPhone, PC и Mac",
+    "category": "Утилиты",
+    "layout": "editorial",
+    "price": "Бесплатно",
+    "rating": 4.8,
+    "developer": "Blip Labs",
+    "appStoreUrl": "https://apps.apple.com/us/app/blip-send-any-size-file/id6463305181",
+    "iconUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=256&auto=format&fit=crop&q=80",
+    "screenshotUrl": "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&auto=format&fit=crop&q=80",
+    "presetScreen": "",
+    "rawImage": false,
+    "featured": false,
+    "createdAt": "2026-10-10T09:40:00Z",
+    "description": "Идеальная замена AirDrop, когда нужно перекинуть 50 ГБ исходников с iPhone на Windows или Mac в другой сети. Передаёт файлы напрямую устройство-на-устройство без загрузки в промежуточное облако.",
+    "highlights": [
+      "Без лимитов на размер передаваемого файла",
+      "Работает между iOS, Windows, macOS и Android",
+      "Максимальная скорость локальной Wi-Fi сети"
+    ]
+  }
+]
